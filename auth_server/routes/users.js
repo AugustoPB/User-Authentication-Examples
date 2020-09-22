@@ -77,6 +77,17 @@ router.post('/login',
         res.redirect('/dashboard')
     })
 
+router.get('/login/google', passport.authenticate('google', { scope : ['profile', 'email'] }))
+
+router.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/users/login',
+    failureFlash: true
+    }),
+  function(req, res) {
+    // Successful authentication, redirect success.
+    res.redirect('/dashboard')
+})
+
 router.get('/logout', (req, res) => {
     req.logout()
     req.flash('success_msg', 'You are now logged out')
